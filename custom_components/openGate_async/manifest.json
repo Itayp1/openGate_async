@@ -4,5 +4,5 @@
   "config_flow": true,
   "documentation": "https://github.com/yourusername/openGate_async",
   "requirements": [],
-  "version": "0.1.1"
+  "version": "0.1.2"
 }
