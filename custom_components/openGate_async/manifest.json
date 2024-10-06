@@ -2,7 +2,7 @@
   "domain": "openGate_async",
   "name": "Open Gate (async)",
   "config_flow": true,
-  "documentation": "https://example.com",
+  "documentation": "https://github.com/yourusername/openGate_async",
   "requirements": [],
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
