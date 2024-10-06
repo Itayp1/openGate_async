@@ -1,0 +1,8 @@
+{
+  "domain": "openGate_async",
+  "name": "Open Gate (async)",
+  "config_flow": true,
+  "documentation": "https://example.com",
+  "requirements": [],
+  "version": "0.1.0"
+}
