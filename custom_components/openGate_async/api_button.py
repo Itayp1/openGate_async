@@ -1,7 +1,7 @@
 import aiohttp
 from homeassistant.components.button import ButtonEntity
 from homeassistant.helpers.entity import Entity
-
+BACKENDAPI = "http://10.100.102.10:3000"
 class MyApiButton(ButtonEntity):
     """Representation of a Button that triggers an API call."""
 
@@ -25,10 +25,13 @@ class MyApiButton(ButtonEntity):
 
     async def trigger_api_call(self):
         """Make an API call when the button is pressed."""
-        url = "https://api.example.com/trigger"
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url) as response:
-                if response.status == 200:
-                    _LOGGER.info("API call successful!")
-                else:
-                    _LOGGER.error("API call failed with status %s", response.status)
+        try:
+            url = f"{BACKENDAPI}/addresses"
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    if response.status == 200:
+                        return True
+                    return False
+        except Exception as e:
+            _LOGGER.error("Error during API call: %s", e)
+            return False
