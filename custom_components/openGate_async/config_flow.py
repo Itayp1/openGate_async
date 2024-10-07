@@ -33,8 +33,9 @@ class OpenGateAsyncConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             otp_code = user_input["otp_code"]
             self.uqid = await self.verify_otp(self.phone_number, otp_code)
-            if self.uqid:
-                return self.async_create_entry(title="Open Gate", data={"uqid": self.uqid})
+            self.gateId = await self.gateInfo(self.uqid)
+            if self.uqid:                 
+                 return self.async_create_entry(title="Open Gate", data={"uqid": self.uqid , "gateId":self.gateId})
             return self.async_show_form(
                 step_id="otp",
                 errors={"base": "invalid_code"},
@@ -80,3 +81,20 @@ class OpenGateAsyncConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         except Exception as e:
             _LOGGER.error("Error during OTP verification: %s", e)
             return False
+
+    async def gateInfo(self,uqid):
+        """Function to verify OTP code via API."""
+        try:
+            url = f"{BACKENDAPI}/addresses?uqid={uqid}"
+          
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    if response.status == 200:
+                        result = await response.json()
+                        return  result[0]['gates'][0]['_id']
+                    
+                    raise Exception(f"HTTP Error: {response}")
+
+        except Exception as e:
+            _LOGGER.error("Error during OTP verification: %s", e)
+            raise Exception(f"HTTP Error: {response}")

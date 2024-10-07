@@ -45,10 +45,20 @@ async def async_setup_entry(hass: HomeAssistant, config_entry):
 
     hass.services.async_register(DOMAIN, "my_custom_service", client.open_gate)
 
-    # button = MyApiButton("Trigger API Call")
-    # hass.data[DOMAIN] = button
+    # button = MyApiButton(config_entry)
+    hass.data[DOMAIN] = {}
+    hass.data[DOMAIN]['my_button'] = MyApiButton(config_entry)
     # # async_add_entities([button])
     # hass.data.setdefault(DOMAIN, []).append(button)
     # async_add_entities([MyApiButton(hass, "My Custom Button")])
+        # Add entity to the Home Assistant entity registry
+    await hass.helpers.entity_registry.async_get_or_create(
+        "button",  # Domain for the entity
+        DOMAIN,    # Unique identifier for your integration
+        "my_button",  # Unique ID for the button
+        suggested_object_id="open_gate_button",  # Optional: custom ID
+        name="Open Gate Button"  # Optional: display name
+    )
+    
     return True
  

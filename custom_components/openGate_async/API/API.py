@@ -22,7 +22,7 @@ class openGateApi:
     async def open_gate(self , anyVar) -> dict:
         try:
 
-            url = f"{BACKENDAPI}/addresses/{self.uqid}/{self.gateId}"
+            url = f"{BACKENDAPI}/gates/callNow?uqid={self.uqid}&gateId={self.gateId}&type=manualCall&userLocation=undefined"
 
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as response:
@@ -34,11 +34,9 @@ class openGateApi:
  
 
         except Exception as e:
-            raise openGateApiError(
+            raise Exception(
                 f"Failed to communicate with API due to time out {str(e)}"
             )
  
-
-        return False
 
  
