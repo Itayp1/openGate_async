@@ -4,7 +4,7 @@ import aiohttp
 import logging
 
 DOMAIN = "openGate_async"
-BACKENDAPI = "http://10.100.102.10:3000"
+from .const import   BACKENDAPI
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -55,10 +55,10 @@ class OpenGateAsyncConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 async with session.post(url, json=data) as response:
                     if response.status == 200:
                         return True
-                    return False
+                    raise Exception(f"HTTP Error:")
         except Exception as e:
             _LOGGER.error("Error during API call: %s", e)
-            return False
+            raise Exception(f"HTTP Error: {e}")
 
     async def verify_otp(self, phone_number, otp_code):
         """Function to verify OTP code via API."""
@@ -77,10 +77,11 @@ class OpenGateAsyncConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     if response.status == 200:
                         result = await response.json()
                         return result.get("uqid")
-                    return False
+                    
+                    raise Exception(f"HTTP Error: ")
         except Exception as e:
             _LOGGER.error("Error during OTP verification: %s", e)
-            return False
+            raise Exception(f"HTTP Error: {e}")
 
     async def gateInfo(self,uqid):
         """Function to verify OTP code via API."""
@@ -93,8 +94,8 @@ class OpenGateAsyncConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         result = await response.json()
                         return  result[0]['gates'][0]['_id']
                     
-                    raise Exception(f"HTTP Error: {response}")
+                    raise Exception(f"HTTP Error:")
 
         except Exception as e:
             _LOGGER.error("Error during OTP verification: %s", e)
-            raise Exception(f"HTTP Error: {response}")
+            raise Exception(f"HTTP Error: {e}")

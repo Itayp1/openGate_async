@@ -4,7 +4,7 @@ from datetime import timedelta
 BACKENDAPI = "https://api.opengate.io"
 
 # Base component constants
-DOMAIN = "openGate_async"
+DOMAIN = "tornado"
 DOMAIN_DATA = f"{DOMAIN}_data"
 VERSION = "1.0.1"
 PLATFORMS = ["sensor", "button"]

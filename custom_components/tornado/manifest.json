@@ -1,0 +1,9 @@
+{
+  "domain": "my_climate",
+  "name": "My Climate Device",
+  "version": "1.0",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@yourgithubusername"],
+  "iot_class": "cloud_polling"
+}
